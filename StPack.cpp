@@ -82,6 +82,26 @@ class TwoTeacher : Teacher
         void UpgiveMarks(Student& st) override { st.giveMarks(2); }
 };
 
+class UnusualTeacher : Teacher
+{
+    public:
+        UnusualTeacher(string NewSubject): Teacher(NewSubject){};
+        string getSubject() override { return subject; }
+        void UpgiveMarks(Student& st) override 
+        { 
+            bool isSt = st.isExcellentStudent();
+            int rn45 = rand_between(4, 5);
+            int rn23 = rand_between(2, 3);
+
+            if(mood == true and isSt == true) st.giveMarks(5);
+            else if(mood == false and isSt == true) st.giveMarks(rn45);
+            else if(mood == true and isSt == false) st.giveMarks(4);
+            else if(mood == false and isSt == false) st.giveMarks(rn23);
+            changem++;
+            if(changem == 10) setMood(rand_between(0, 1));
+        }
+};
+
 class Lesson
 {
     private:
@@ -104,6 +124,11 @@ class Lesson
             for (int i = 0; i < stList.size(); i++) th.UpgiveMarks(stList[i]);
         }
         void UpAllGiveMarks(TwoTeacher& th)
+        {
+            tc = th.getSubject();
+            for (int i = 0; i < stList.size(); i++) th.UpgiveMarks(stList[i]);
+        }
+        void UpAllGiveMarks(UnusualTeacher& th)
         {
             tc = th.getSubject();
             for (int i = 0; i < stList.size(); i++) th.UpgiveMarks(stList[i]);
