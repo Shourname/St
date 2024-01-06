@@ -66,6 +66,22 @@ class Teacher
         }
 };
 
+class FiveTeacher : Teacher
+{
+    public:
+        FiveTeacher(string NewSubject): Teacher(NewSubject){};
+        string getSubject() override { return subject; }
+        void UpgiveMarks(Student& st) override { st.giveMarks(5); }
+};
+
+class TwoTeacher : Teacher
+{
+    public:
+        TwoTeacher(string NewSubject): Teacher(NewSubject){};
+        string getSubject() override { return subject; }
+        void UpgiveMarks(Student& st) override { st.giveMarks(2); }
+};
+
 class Lesson
 {
     private:
@@ -78,6 +94,16 @@ class Lesson
         string GetTeacher() { return tc; }
         void AddStudents(Student& st) { stList.push_back(st); }
         void UpAllGiveMarks(Teacher& th)
+        {
+            tc = th.getSubject();
+            for (int i = 0; i < stList.size(); i++) th.UpgiveMarks(stList[i]);
+        }
+        void UpAllGiveMarks(FiveTeacher& th)
+        {
+            tc = th.getSubject();
+            for (int i = 0; i < stList.size(); i++) th.UpgiveMarks(stList[i]);
+        }
+        void UpAllGiveMarks(TwoTeacher& th)
         {
             tc = th.getSubject();
             for (int i = 0; i < stList.size(); i++) th.UpgiveMarks(stList[i]);
@@ -105,4 +131,7 @@ int main()
     l1.AddStudents(s2);
     l1.AddStudents(s3);
     l1.UpAllGiveMarks(t1);
+
+    FiveTeacher ft1("Geography");
+    TwoTeacher tt1("Art");
 }
