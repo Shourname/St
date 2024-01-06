@@ -135,6 +135,80 @@ class Lesson
         }
 };
 
+class Parent
+{
+    protected:
+        bool mood = rand_between(0, 1);
+        vector<Student> children;
+        set<string> list;
+        string surname;
+    public:
+        Parent(string NewSurname)
+        {
+            surname = NewSurname;
+        }
+        set<string> getList() { return list; }
+        vector<Student> getChildren() { return children; }
+        void AddChildren(Student& ch)
+        {
+            children.push_back(ch);
+            list.insert(ch.getName());
+        }
+        void SayAll()
+        {
+            if(children.size() != 0)
+            {
+                for (int i = 0; i<children.size();i++)
+                {
+                    if(children[i].isExcellentStudent() == 1 and mood == 1) cout << "Our child is the best." << endl;
+                    if(children[i].isExcellentStudent() == 1 and mood == 0) cout << "Our child is the good." << endl;
+                    if(children[i].isExcellentStudent() == 0 and mood == 1) cout << "Our child can do it better." << endl;
+                    if(children[i].isExcellentStudent() == 0 and mood == 0) cout << "Our child is the bad." << endl;
+                }
+            }
+        }
+        void SayRandom()
+        {
+            if(children.size() != 0)
+            {
+                int i = rand_between(1, children.size());
+                if(children[i].isExcellentStudent() == 1 and mood == 1) cout << "Our child is the best." << endl;
+                if(children[i].isExcellentStudent() == 1 and mood == 0) cout << "Our child is the good." << endl;
+                if(children[i].isExcellentStudent() == 0 and mood == 1) cout << "Our child can do it better." << endl;
+                if(children[i].isExcellentStudent() == 0 and mood == 0) cout << "Our child is the bad." << endl;
+            }
+        }
+        void SaySum()
+        {
+            bool m = true;
+            for (int i = 0; i<children.size(); i++)
+            {
+                if (children[i].isExcellentStudent()) continue; else m = 0;
+            }
+            if (m == 1 and mood == 1) cout<<"They are the best."<<endl;
+            if (m == 1 and mood == 0) cout<<"They are the good."<<endl;
+            if (m == 0 and mood == 1) cout<<"They can do it better."<<endl;
+            if (m == 0 and mood == 0) cout<<"They are the bad."<<endl;
+        }
+        void SayCertain(string nameStudent)
+        {
+            int number;
+            bool m = true;
+            for (int i = 0; i<children.size(); i++)
+            {
+                if ((children[i].getName()) == nameStudent) number = i; else continue;
+            }
+            if(number != 0)
+            {
+                for (int i = 0;i<children.size(); i++){ if (!children[i].isExcellentStudent()) m = 0; }
+            }
+            if (m == 1 and mood == 1) cout<<children[number].getName()<<"Our child is the best."<<endl;
+            if (m == 1 and mood == 0) cout<<children[number].getName()<<"Our child is the good."<<endl;
+            if (m == 0 and mood == 1) cout<<children[number].getName()<<"Our child can do it better."<<endl;
+            if (m == 0 and mood == 0) cout<<children[number].getName()<<"Our child is the bad."<<endl;
+        }
+};
+
 int main()
 {
     srand(unsigned(time(0)));
@@ -159,4 +233,7 @@ int main()
 
     FiveTeacher ft1("Geography");
     TwoTeacher tt1("Art");
+
+    Parent p1("Timofeev");
+    p1.AddChildren(s1);
 }
