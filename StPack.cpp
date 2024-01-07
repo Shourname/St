@@ -209,6 +209,52 @@ class Parent
         }
 };
 
+class GrandMa : Parent
+{
+    public:
+        GrandMa(string NewSurname): Parent(NewSurname) {};
+
+        void SayAll() override
+        {
+            if(children.size() != 0)
+            {
+                for (int i = 0; i<children.size();i++)
+                {
+                    cout << children[i].getName() << " is the best." << endl;
+                }
+            }
+        }
+        void SayRandom() override
+        {
+            if(children.size() != 0)
+            {
+                int i = rand_between(1, children.size());
+                cout << children[i].getName()<<" is the best."<<endl;
+            }
+        }
+        void SaySum() override
+        {
+            cout<<"They are the best."<<endl;
+        }
+        void SayCertain(string nameStudent)
+        {
+            int number;
+            for (int i = 0; i<children.size(); i++)
+            {
+                if ((children[i].getName()) == nameStudent) number = i; else continue;
+            }
+            if(number != 0)
+            {
+                cout<<children[number].getName()<<" is the best."<<endl;
+            }
+            else
+            {
+                if (mood == 1) cout<<"This child is a good."<<endl;
+                if (mood == 0) cout<<"This child is a bad."<<endl;
+            }
+        }
+};
+
 int main()
 {
     srand(unsigned(time(0)));
