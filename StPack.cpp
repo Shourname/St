@@ -112,6 +112,7 @@ class Lesson
         Lesson(string NewNaming){ naming = NewNaming; }
         string GetNaming(){ return naming; }
         string GetTeacher() { return tc; }
+        vector<Student> GetStudentsNow() { return stList; }
         void AddStudents(Student& st) { stList.push_back(st); }
         void UpAllGiveMarks(Teacher& th)
         {
@@ -132,6 +133,13 @@ class Lesson
         {
             tc = th.getSubject();
             for (int i = 0; i < stList.size(); i++) th.UpgiveMarks(stList[i]);
+        }
+        bool CheckFive(Student& st)
+        {
+            float s;
+            for(int i = 0; i <= st.getMarks().size(); i++) s += st.getMarks()[i];
+            s = (s / (st.getMarks().size()) - 1);
+            if (s >= 4.6) return 1; else return 0;
         }
 };
 
@@ -255,6 +263,82 @@ class GrandMa : Parent
         }
 };
 
+class Meeting
+{
+    private:
+        vector<Parent> pr;
+        vector<GrandMa> gm;
+        vector<Teacher> tc;
+        vector<Lesson> ls;
+    public:
+        Meeting(){};
+        void addParent(Parent &p){
+            pr.push_back(p);
+        }
+        void addGrandMa(GrandMa &g){
+            gm.push_back(g);
+        }
+        void addTeacher(Teacher &t){
+            tc.push_back(t);
+        }
+        void addLesson(Lesson &l){
+            ls.push_back(l);
+        }
+        void NowTalking()
+        {
+            for(int i = 0; i < ls.size(); i++)
+            {
+                for(int j = 0; j < tc.size(); j++)
+                {
+                    cout<<ls[i].GetNaming()<<"class"<<endl;
+                    if(tc[j].getSubject() == ls[i].GetTeacher())
+                    {
+                        for(int k = 0; k < pr.size(); k++)
+                        {
+                            for(int h = 0; h < (pr[j].getChildren()).size(); k++)
+                            {
+                                for(int y = 0; y < (ls[i].GetStudentsNow()).size(); y++)
+                                {
+                                    if((ls[i].GetStudentsNow())[y].getName() == (pr[k].getChildren()[h]).getName())
+                                    {
+                                        Student now = pr[k].getChildren()[h];
+                                        if(ls[i].CheckFive(ls[i].GetStudentsNow()[y]))
+                                        {
+                                            if(gm.size() != 0)
+                                            {
+                                                cout<<now.getName()<<" is the best and luscky one.";
+                                            }
+                                            else
+                                            {
+                                                cout<<now.getName()<<" work nice.";
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if(gm.size() != 0)
+                                            {
+                                                cout<<now.getName()<<" is the best and luscky one.";
+                                            }
+                                            else
+                                            {
+                                                cout<<now.getName()<<" is tryng.";
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        cout<<"No Teacher."<<endl;
+                    }
+                }
+            }
+        }
+
+};
+
 int main()
 {
     srand(unsigned(time(0)));
@@ -282,4 +366,15 @@ int main()
 
     Parent p1("Timofeev");
     p1.AddChildren(s1);
+
+    GrandMa g1("Lucky");
+
+    Meeting m1;
+    m1.addTeacher(t1);
+    m1.addParent(p1);
+    m1.addGrandMa(g1);
+    m1.addLesson(l1);
+    m1.NowTalking();
+
+    return 0;
 }
